@@ -3,7 +3,10 @@
 import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
 import { loginSchema, registerSchema } from "../schemas";
-
+import { createAdminClient } from "@/lib/appwrite";
+import { ID } from "node-appwrite";
+import { deleteCookie, setCookie } from "hono/cookie";
+import { AUTH_COOKIE } from "../constants";
 
 // middelware anything return a next method "next()" before the final arrow function (the controller)   
 const app = new Hono()
@@ -13,8 +16,23 @@ const app = new Hono()
         async (c) => {
             const { email, password } = c.req.valid("json");
 
-            console.log({ email, password });
-            return c.json({ email, password });
+            const { account } = await createAdminClient();
+
+            const session = await account.createEmailPasswordSession(
+                email, 
+                password
+            );
+
+            setCookie(c, AUTH_COOKIE, session.secret, {
+                path: "/",
+                httpOnly: true,
+                secure: true,
+                sameSite: "strict",
+                maxAge: 60 * 60 * 24 * 30, // 30 days
+            });
+
+
+            return c.json({ success: true });
         }
     )
     .post(
@@ -23,9 +41,35 @@ const app = new Hono()
         async (c) => {
             const { name, email, password } = c.req.valid("json");
 
-            console.log({ name, email, password });
-            return c.json({ name, email, password });
+            const { account } = await createAdminClient();
+            await account.create(
+                ID.unique(), // unique user ID
+                email, 
+                password, 
+                name 
+            );
+
+            const session = await account.createEmailPasswordSession(
+                email, 
+                password
+            );
+
+            setCookie(c, AUTH_COOKIE, session.secret, {
+                path: "/",
+                httpOnly: true,
+                secure: true,
+                sameSite: "strict",
+                maxAge: 60 * 60 * 24 * 30, // 30 days
+            });
+
+            return c.json({ success: true });
         }
-    );;
+    )
+    .post(
+        "/logout", (c) => {
+            deleteCookie(c, AUTH_COOKIE);
+
+            return c.json({ success: true });
+        });
 
 export default app;
