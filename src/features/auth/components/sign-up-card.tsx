@@ -15,11 +15,12 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 import Link from "next/link";
 import { registerSchema } from "../schemas";
 import { useRegister } from "../api/use-register";
+import { Loader } from "lucide-react";
 
 
 export const SignUpCard = () => {
 
-    const { mutate } = useRegister(); 
+    const { mutate, isPending } = useRegister(); 
 
     const form = useForm<z.infer<typeof registerSchema>>({
         resolver: zodResolver(registerSchema),
@@ -88,6 +89,7 @@ export const SignUpCard = () => {
                                     <FormControl>
                                         <Input
                                         {...field}
+                                        disabled={isPending}
                                         type="password"
                                         placeholder="Enter your password"
                                         />
@@ -96,8 +98,8 @@ export const SignUpCard = () => {
                                 </FormItem>
                             )}
                         />
-                        <Button disabled={false} size="lg" className="w-full">
-                            Create your account
+                        <Button disabled={isPending} size="lg" className="w-full">
+                            {isPending ? <Loader className="mr-2 size-5 animate-spin" /> : "Register"}
                         </Button>
                     </form>
                 </Form>
@@ -106,11 +108,11 @@ export const SignUpCard = () => {
                 <DottedSeparator />
             </div>
             <CardContent className="p-7 flex flex-col gap-y-4">
-                <Button disabled={false} variant="secondary" size="lg" className="w-full">
+                <Button disabled={isPending} variant="secondary" size="lg" className="w-full">
                     <FcGoogle className="mr-2 size-5"/>
                     Sign Up with Google
                 </Button>
-                <Button disabled={false} variant="secondary" size="lg" className="w-full">
+                <Button disabled={isPending} variant="secondary" size="lg" className="w-full">
                     <FaGithub className="mr-2 size-5"/>
                     Sign Up with Github
                 </Button>
