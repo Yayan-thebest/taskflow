@@ -79,7 +79,7 @@ const app = new Hono()
             const account = c.get("account");
 
             deleteCookie(c, AUTH_COOKIE);
-            await account.deleteSession("current");
+            await account.deleteSession("currentUser");
 
             return c.json({ success: true });
         });
