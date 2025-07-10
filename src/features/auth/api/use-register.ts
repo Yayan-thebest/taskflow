@@ -26,6 +26,7 @@ export const useRegister = () => {
         onSuccess: () => {
             router.refresh();
             queryClient.invalidateQueries({ queryKey: ["currentUser"] });
+            queryClient.invalidateQueries({ queryKey: ["workspaces"]})
             toast.success("Accounct created succesfully")
         },
         onError: () => {

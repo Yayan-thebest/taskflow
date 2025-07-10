@@ -53,21 +53,30 @@ export const WorkspaceSwitcher = () => {
                 <SelectValue placeholder="No workspace selected"></SelectValue>
             </SelectTrigger>
             <SelectContent>
-                {workspaces?.documents.map((workspace) =>(
-                    <SelectItem key={workspace.$id} value={workspace.$id}>
-                        <div className="flex justify-start items-center gap-3 font-medium">
-                            {workspace.imageUrl ?
-                                <WorkspaceAvatar name={workspace.name} />
-                               : (<Avatar className="size-10 hover:opcacity-75rouned-md transition border border-neutral-300">
-                                    <AvatarFallback className={cn(getColorFromName(workspace.name), "rounded-md font-medium text-sm text-white flex items-center justify-center")}>
-                                        {getInitials(workspace.name)}
-                                    </AvatarFallback>
-                                </Avatar>)
-                            }
-                            <span className="truncate">{workspace.name}</span>
-                        </div>
-                    </SelectItem>
-                ))}
+              {workspaces?.documents.length === 0 ? (
+                <span className="text-muted-foreground text-sm">No workspace create one</span>
+              ) : (
+                <div>
+                  {workspaces?.documents.map((workspace) =>(
+                      <SelectItem key={workspace.$id} value={workspace.$id}>
+                          <div className="flex justify-start items-center gap-3 font-medium">
+                              {workspace.imageUrl ?
+                                  <WorkspaceAvatar name={workspace.name} />
+                                : (<Avatar className="size-10 hover:opcacity-75rouned-md transition border border-neutral-300">
+                                      <AvatarFallback className={cn(getColorFromName(workspace.name), "rounded-md font-medium text-sm text-white flex items-center justify-center")}>
+                                          {getInitials(workspace.name)}
+                                      </AvatarFallback>
+                                  </Avatar>)
+                              }
+                              <span className="truncate">{workspace.name}</span>
+                          </div>
+                      </SelectItem>
+                  ))}
+                </div>
+              ) 
+
+              }
+
             </SelectContent>
           </Select>
         </div>

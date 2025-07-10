@@ -25,6 +25,7 @@ export const useLogin = () => {
         onSuccess: () => {
             router.refresh();
             queryClient.invalidateQueries({ queryKey: ["currentUser"] });
+            queryClient.invalidateQueries({ queryKey: ["workspaces"]})
             toast.success("Login succesfully")
         },
         onError: () => {
