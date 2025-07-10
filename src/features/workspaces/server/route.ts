@@ -6,6 +6,16 @@ import { DATABASE_ID, IMAGES_BUCKET_ID, WORKSPACES_ID } from "@/config";
 import { ID } from "node-appwrite";
 
 const app = new Hono()
+    .get("/", sessionMiddleware, async (c) => {
+        const databases = c.get("databases");
+
+        const workspaces = await databases.listDocuments(
+            DATABASE_ID,
+            WORKSPACES_ID,
+        );
+
+        return c.json({ data: workspaces });
+    })
     .post(
         "/",
         zValidator("form", createWorkspaceSchema),
@@ -17,9 +27,8 @@ const app = new Hono()
 
             const { name, image } = c.req.valid("form");
 
-           //let uploadedImageUrl: string | undefined;
-            let uploadedFileId: string | undefined; // Change to store file ID
-
+           let uploadedImageUrl: string | undefined;
+          //  let imageUrl: string | undefined;
 
             if(image instanceof File){
                 const file = await storage.createFile(
@@ -32,9 +41,11 @@ const app = new Hono()
                     IMAGES_BUCKET_ID,
                     file.$id,
                 );*/}
+                
+              //  imageUrl = storage.getFileView(IMAGES_BUCKET_ID, file.$id);
 
-                //uploadedImageUrl = `data:image/png;base64,${Buffer.from(IMAGES_BUCKET_ID).toString("base64")}`;
-                uploadedFileId  = file.$id; // Store the file ID
+                //uploadedImageUrl = data:image/png;base64,${Buffer.from(arrayBuffer).toString("base64")};
+                uploadedImageUrl  = file.$id; // Store the file ID
 
             }
 
@@ -45,7 +56,7 @@ const app = new Hono()
                 {
                     name,
                     userId: user.$id,
-                    imageUrl: uploadedFileId,
+                    imageUrl: uploadedImageUrl,
                 }
             );
 
