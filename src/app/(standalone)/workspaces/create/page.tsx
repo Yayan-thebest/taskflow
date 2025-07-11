@@ -1,5 +1,5 @@
 {/** when new user is registred he will redirect first on this page and have to create a workspaces before */}
-import { getCurrentUser } from '@/features/auth/actions';
+import { getCurrentUser } from '@/features/auth/queries';
 import { CreateWorkspaceForm } from '@/features/workspaces/components/create-workspace-form';
 import { redirect } from 'next/navigation';
 import React from 'react'
