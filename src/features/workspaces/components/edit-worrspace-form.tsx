@@ -5,19 +5,18 @@ import { useRef } from "react";
 import { updateWorkspaceSchema } from "../schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Image from "next/image";
 
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DottedSeparator } from "@/components/dotted-separator";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { ArrowLeftIcon, ImageIcon } from "lucide-react";
+import { ArrowLeftIcon, } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { cn } from "@/lib/utils";
+import { cn, getInitials } from "@/lib/utils";
 import { Workspace } from "../types";
 import { useUpdateWorkspace } from "../api/use-update-workspace";
+import { WorkspaceAvatar } from "./workspace-avatar";
 
 
 interface EditWorkspaceFormProps {
@@ -108,7 +107,8 @@ export const EditWorkspaceForm = ({ onCancel, initialValues }: EditWorkspaceForm
                                 render={({ field }) => (
                                     <div className="flex flex-col gap-y-2">
                                         <div className="flex items-center gap-x-5">
-                                            {field.value ? (
+                                            <WorkspaceAvatar name={getInitials(initialValues.name)} />
+                                           {/* {field.value ? (
                                             <div className="size-[72px] relative rounded-md overflow-hidden">
                                                 <Image
                                                 src={
@@ -127,7 +127,7 @@ export const EditWorkspaceForm = ({ onCancel, initialValues }: EditWorkspaceForm
                                                     <ImageIcon className="size-[36px] text-neutral-400"/>
                                                 </AvatarFallback>
                                             </Avatar>
-                                            )}
+                                            )} */}
                                             <div className="flex flex-col">
                                                 <p className="text-sm">Workspace Icon</p>
                                                 <p className="text-sm text-muted-foreground">JPG, PNG, SVG or JPEG | max 1mb</p>
