@@ -30,6 +30,7 @@ console.log("Logout response", response);
             
             // 🚀 Redirige vers la page de login
             router.push("/sign-in");
+            //window.location.href = "/sign-in"
         },
         onError: () => {
             toast.error("Failed to logout")
