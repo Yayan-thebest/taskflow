@@ -77,6 +77,7 @@ interface GetWorkspaceInfoProps {
 
 export const getWorkspaceInfo = async ({ workspaceId }: GetWorkspaceInfoProps) => {
     try {
+        // moi account
         const { databases } = await createSessionClient();
 
         const workspace = await databases.getDocument<Workspace>(
@@ -84,11 +85,35 @@ export const getWorkspaceInfo = async ({ workspaceId }: GetWorkspaceInfoProps) =
             WORKSPACES_ID,
             workspaceId
         );    
-        
+      //  const user = await account.get(); // moi
+
         // we return only the name of the workspace
         return {
+           // user: user.name, // moi
             name: workspace.name,
+            createdAt: workspace.$createdAt, // moi
         };
+
+    } catch  {
+        return null;
+    }
+};
+
+interface GetMemberInfoProps {
+    workspaceId: string;
+}
+export const getMemberInfo = async ({ workspaceId }: GetMemberInfoProps) => {
+    try {
+        const { databases } = await createSessionClient();
+
+        const workspace = await databases.getDocument(
+            DATABASE_ID,
+            MEMBERS_ID,
+            workspaceId
+        );    
+        
+        // we return only the name of the workspace
+        return workspace;
 
     } catch  {
         return null;
