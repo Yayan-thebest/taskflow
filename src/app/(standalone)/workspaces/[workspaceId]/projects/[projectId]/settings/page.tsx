@@ -1,0 +1,27 @@
+import { getCurrentUser } from '@/features/auth/queries'
+import { EditProjectForm } from '@/features/projects/components/edit-project-form';
+import { getProject } from '@/features/projects/queries';
+import React from 'react'
+
+interface ProjectIdSettingsPageProps {
+    params : {
+        projectId: string;
+    }
+};
+
+const ProjectIdSettingsPage = async ({ params }: ProjectIdSettingsPageProps) => {
+    const currentUser = getCurrentUser();
+    if(!currentUser) return ("/sign-in");
+
+    const initialValues = await getProject({
+        projectId: params.projectId,
+    });
+
+  return (
+    <div className='w-full lg:max-w-xl'>
+      <EditProjectForm initialValues={initialValues} />
+    </div>
+  )
+}
+
+export default ProjectIdSettingsPage

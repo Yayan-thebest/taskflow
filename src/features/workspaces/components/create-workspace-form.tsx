@@ -24,7 +24,7 @@ interface CreateWorkspaceFormProps {
 };
 
 
-export const CreateProjectForm = ({ onCancel }: CreateWorkspaceFormProps) => {
+export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
 
     const router = useRouter();
     const { mutate, isPending } = useCreateWorkspace();
