@@ -2,7 +2,7 @@
 
 import z from "zod";
 import { useRef } from "react";
-import { createWorkspaceSchema } from "../schema";
+import { createProjectSchema } from "../schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
@@ -13,40 +13,44 @@ import { DottedSeparator } from "@/components/dotted-separator";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useCreateWorkspace } from "../api/use-create-workspace";
 import { ImageIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { useCreateProject } from "../api/use-create-project";
+import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
 
 
-interface CreateWorkspaceFormProps {
+interface CreateProjectFormProps {
     onCancel?: () => void;
 };
 
 
-export const CreateProjectForm = ({ onCancel }: CreateWorkspaceFormProps) => {
+export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
+
+    const workspaceId =  useWorkspaceId();
 
     const router = useRouter();
-    const { mutate, isPending } = useCreateWorkspace();
+    const { mutate, isPending } = useCreateProject();
 
     const inputRef = useRef<HTMLInputElement>(null);
 
-    const form = useForm<z.infer<typeof createWorkspaceSchema>>({
-        resolver: zodResolver(createWorkspaceSchema),
+    const form = useForm<z.infer<typeof createProjectSchema>>({
+        resolver: zodResolver(createProjectSchema.omit({workspaceId: true})),
         defaultValues: {
             name: "",
         }
     });
 
-    const onSubmit = (values: z.infer<typeof createWorkspaceSchema>) => {
+    const onSubmit = (values: z.infer<typeof createProjectSchema>) => {
         const finalValues = {
             ...values,
+            workspaceId,
             image: values.image instanceof File ? values.image : "",
         }
         mutate({ form: finalValues }, {
             onSuccess: ({ data }) => {
                 form.reset();
-                router.push(`/workspaces/${data.$id}`)
+                // TODO: redirect to projects screen
             }
         });  
     };
@@ -61,7 +65,7 @@ export const CreateProjectForm = ({ onCancel }: CreateWorkspaceFormProps) => {
     return (
         <Card className="w-full h-full border-none shadow-none">
             <CardHeader>
-                <CardTitle className="text-xl font-bold">Create a new Workspace</CardTitle>
+                <CardTitle className="text-xl font-bold">Create a new Project</CardTitle>
             </CardHeader>
             <div className="px-7">
                 <DottedSeparator/>
@@ -76,12 +80,12 @@ export const CreateProjectForm = ({ onCancel }: CreateWorkspaceFormProps) => {
                                 render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>
-                                        Workspace Name
+                                        Project Name
                                     </FormLabel>
                                     <FormControl>
                                         <Input
                                             {...field}
-                                            placeholder="Enter workspace name"
+                                            placeholder="Enter project name"
                                         />
                                     </FormControl>
                                     <FormMessage/>
@@ -165,7 +169,7 @@ export const CreateProjectForm = ({ onCancel }: CreateWorkspaceFormProps) => {
                             >
                                 Cancel
                             </Button>
-                            <Button type="submit" size={"lg"} disabled={isPending}>Create Workspace</Button>
+                            <Button type="submit" size={"lg"} disabled={isPending}>Create Project</Button>
 
                         </div>
 
