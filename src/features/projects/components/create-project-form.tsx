@@ -35,7 +35,7 @@ export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
     const inputRef = useRef<HTMLInputElement>(null);
 
     const form = useForm<z.infer<typeof createProjectSchema>>({
-        resolver: zodResolver(createProjectSchema.omit({workspaceId: true})),
+        resolver: zodResolver(createProjectSchema.omit({ workspaceId: true })),
         defaultValues: {
             name: "",
         }
@@ -50,7 +50,7 @@ export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
         mutate({ form: finalValues }, {
             onSuccess: ({ data }) => {
                 form.reset();
-                // TODO: redirect to projects screen
+                router.push(`/workspaces/${workspaceId}/projects/${data.$id}`)
             }
         });  
     };
