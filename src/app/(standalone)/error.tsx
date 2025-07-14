@@ -8,7 +8,7 @@ const ErrorPage = () => {
   return (
     <div className='flex items-center justify-center h-screen'>
       <div className='max-h-fit flex flex-col gap-y-4 items-center justify-center'>
-        <AlertTriangle className='size-7 mr-2 text-muted-foreground'/>
+        <AlertTriangle className='size-7 mr-1 text-muted-foreground'/>
         <p className='text-sm text-muted-foreground'>An error occured. Please try again.</p>
         <Button variant={"secondary"} size={"default"} className='' asChild>
           <Link href={"/"}>

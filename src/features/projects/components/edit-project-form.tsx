@@ -98,7 +98,7 @@ export const EditProjectForm = ({ onCancel, initialValues }: EditProjectFormProp
                     variant="secondary"
                     onClick={onCancel ? onCancel : () => router.push(`/workspaces/${initialValues.workspaceId}/projects/${initialValues.$id}`)}
                 >
-                    <ArrowLeftIcon className="size-4 mr-2" />
+                    <ArrowLeftIcon className="size-4 mr-1" />
                     Back
                 </Button>
 

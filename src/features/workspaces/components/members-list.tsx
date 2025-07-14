@@ -127,7 +127,7 @@ export const MembersList =  ({initialValues}: MembersListProps) => {
                             onClick={() => handleUpdatemember(member.$id, MemberRole.ADMIN)}
                             disabled={isUpdatingMember}
                         >
-                            <ShieldUserIcon className="size-5 mr-2 text-muted-foreground" />
+                            <ShieldUserIcon className="size-5 mr-1 text-muted-foreground" />
                             Set as Administrator
                         </DropdownMenuItem>
                         <DropdownMenuItem
@@ -135,7 +135,7 @@ export const MembersList =  ({initialValues}: MembersListProps) => {
                             onClick={() => handleUpdatemember(member.$id, MemberRole.MEMBER)}
                             disabled={isUpdatingMember}
                         >
-                            <User className="size-5 mr-2 text-muted-foreground" />
+                            <User className="size-5 mr-1 text-muted-foreground" />
                             Set as Member
                         </DropdownMenuItem>
                         <DropdownMenuItem
@@ -143,7 +143,7 @@ export const MembersList =  ({initialValues}: MembersListProps) => {
                             onClick={() => handleDeleteMember(member.$id)}
                             disabled={isDeletingMember}
                         >
-                            <TrashIcon className="size-5 mr-2" />
+                            <TrashIcon className="size-5 mr-1" />
                             Remove {member.name}
                         </DropdownMenuItem>
                         </DropdownMenuContent>

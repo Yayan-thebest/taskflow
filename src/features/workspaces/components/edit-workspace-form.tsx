@@ -122,7 +122,7 @@ export const EditWorkspaceForm = ({ onCancel, initialValues }: EditWorkspaceForm
                 variant="secondary"
                 onClick={onCancel ? onCancel : () => router.push(`/workspaces/${initialValues.$id}`)}
                 >
-                <ArrowLeftIcon className="size-4 mr-2" />
+                <ArrowLeftIcon className="size-4 mr-1" />
                 Back
                 </Button>
 
