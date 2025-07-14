@@ -20,7 +20,7 @@ const app = new Hono()
                 workspaceId: z.string(),
                 projectId: z.string().nullish(),
                 assigneeId: z.string().nullish(),
-                status: z.nativeEnum(TasksStatus),
+                status: z.nativeEnum(TasksStatus).nullish(),
                 search: z.string().nullish(),
                 dueDate: z.string().nullish()
             })

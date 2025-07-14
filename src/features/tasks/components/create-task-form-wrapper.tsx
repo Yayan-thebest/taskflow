@@ -1,4 +1,3 @@
-import { DottedSeparator } from "@/components/dotted-separator";
 import { Card, CardContent } from "@/components/ui/card";
 import { useGetMembers } from "@/features/members/api/use-get-members";
 import { useGetProjects } from "@/features/projects/api/use-get-projects";
