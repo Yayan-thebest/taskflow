@@ -45,4 +45,8 @@ export function getColorFromName(name: string): string {
   const hash = name.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0);
 
   return colors[hash % colors.length];
+};
+
+export function snakeCaseToTitleCase(str: string) {
+  return str.toLowerCase().replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
 }
