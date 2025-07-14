@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { getCurrentUser } from '@/features/auth/queries';
 import { ProjectAvatar } from '@/features/projects/components/project-avatar';
 import { getProject } from '@/features/projects/queries';
+import { TaskViewSwitcher } from '@/features/tasks/components/task-view-switcher';
 import { PencilIcon } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react'
@@ -36,13 +37,13 @@ const ProjectIdPage = async ({ params }: ProjectIdPageProps) => {
             <div className=''>
                 <Button variant={"secondary"} size={"sm"} asChild>
                     <Link href={`/workspaces/${initialValues.workspaceId}/projects/${initialValues.$id}/settings`}>
-                        <PencilIcon className='size-4 mr-2' />Edit Project
+                        <PencilIcon className='size-4 mr-1' />Edit Project
                     </Link>
                 </Button>
             </div>
 
         </div>
-
+        <TaskViewSwitcher/>
     </div>
   )
 }
