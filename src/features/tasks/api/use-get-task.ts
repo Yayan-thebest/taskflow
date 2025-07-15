@@ -2,34 +2,18 @@ import { useQuery } from "@tanstack/react-query";
 
 import { client } from "@/lib/rpc";
 
-interface UseGetTasksProps {
-    workspaceId: string;  
-    projectId?: string | null;
-    status?: string | null;
-    search?: string | null;
-    assigneeId?: string | null;
-    dueDate?: string | null; 
+interface UseGetTaskProps {
+    taskId: string;
 }
 
-export const useGetTasks = ({ workspaceId, projectId, status, search, assigneeId, dueDate}: UseGetTasksProps) => {
+export const useGetTask = ({ taskId }: UseGetTaskProps) => {
     const query = useQuery({
-        queryKey: ["tasks", 
-            workspaceId, projectId, status, search, assigneeId, dueDate
-        ], // we add worksapceID so that projects reload every time we change workspace
+        queryKey: ["task", taskId], // we add worksapceID so that projects reload every time we change workspace
         queryFn: async () => {
-            const response = await client.api.tasks.$get({ 
-                query: {
-                    workspaceId,
-                    projectId: projectId ?? undefined,
-                    status:  status ?? undefined,
-                    search: search ?? undefined,
-                    assigneeId: assigneeId ?? undefined,
-                    dueDate: dueDate ?? undefined,
-                }
-            });
+            const response = await client.api.tasks[":taskId"].$get({ param: {taskId}});
 
             if(!response.ok){
-                throw new Error("Failed to fecth tasks");
+                throw new Error("Failed to fecth task");
             }
 
             const { data } = await response.json();
