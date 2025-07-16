@@ -324,5 +324,79 @@ const app = new Hono()
             });
         }
     )
+    .post(
+        "/bulk-update", // Route HTTP POST pour les mises à jour multiples de tâches
+        sessionMiddleware, // Middleware d’authentification : injecte `user` dans le contexte
+        
+        // Validation stricte du corps de la requête avec Zod
+        zValidator(
+            "json", 
+            z.object({
+                tasks: z.array( // On attend un tableau d’objets représentant les tâches à mettre à jour
+                    z.object({
+                        $id: z.string(), // ID de la tâche
+                        status: z.nativeEnum(TasksStatus), // Nouveau statut, contrôlé par enum
+                        position: z.number().int().positive().min(1000).max(1_000_000), // Nouvelle position (tri)
+                    })                    
+                )
+            })
+        ),
+
+        async (c) => {
+            // Récupère les services injectés via le middleware
+            const databases = c.get("databases");
+            const user = c.get("user");
+
+            // Récupère les données JSON validées par le zValidator
+            const { tasks } = await c.req.valid("json");
+
+            // Requête à la base de données : récupère toutes les tâches à modifier
+            const tasksToUpdate = await databases.listDocuments(
+                DATABASE_ID,
+                TASKS_ID,
+                [Query.contains("$id", tasks.map((task) => task.$id))] // Filtre sur les IDs fournis
+            );
+
+            // On extrait tous les workspaceId des tâches concernées
+            const workspaceIds = new Set(tasksToUpdate.documents.map((task) => task.workspaceId));
+
+            // 🛡️ Sécurité : toutes les tâches doivent appartenir au même workspace
+            if (workspaceIds.size !== 1) {
+             return c.json({ error: "All tasks must belong to the same workspace" });
+            }
+
+            // On récupère ce workspaceId unique
+            const workspaceId = workspaceIds.values().next().value;
+
+            // Vérifie si l’utilisateur est bien membre du workspace
+            const member = await getMember({
+                databases,
+                workspaceId,
+                userId: user.$id,
+            });
+
+            // 🔐 Si l’utilisateur n’est pas membre : accès interdit
+            if (!member) {
+                return c.json({ error: "Unauthorized" }, 401);
+            }
+
+            // Mise à jour en parallèle de chaque tâche : statut + position
+            const updatedTasks = await Promise.all(
+            tasks.map((task) => {
+                const { $id, status, position } = task;
+                return databases.updateDocument<Task>(
+                DATABASE_ID,
+                TASKS_ID,
+                $id,
+                { status, position }
+                );
+            })
+            );
+
+            // Réponse contenant les tâches mises à jour
+            return c.json({ data: updatedTasks });
+        }
+    );
+
 
 export default app;
