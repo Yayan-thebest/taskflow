@@ -15,7 +15,6 @@ import { useDeletMember } from "@/features/members/api/use-delete-member";
 import { useUpdateMember } from "@/features/members/api/use-update-member";
 import { MemberRole } from "@/features/members/types";
 import { useConfirm } from "@/hooks/use-confirm";
-import { useGetWorkspaces } from "../api/use-get-workspace";
 import { Badge } from "@/components/ui/badge";
 
 
@@ -27,7 +26,6 @@ interface MembersListProps {
 }
 export const MembersList =  ({initialValues}: MembersListProps) => {
     const workspaceId = useWorkspaceId();
-    const { data: workspaces } = useGetWorkspaces();
 
     const [ConfirmDialog, confirm] = useConfirm(
         "Remove member",

@@ -1,6 +1,6 @@
 "use client";
 import { RiAddCircleFill } from "react-icons/ri";
-import { useGetWorkspaces } from "@/features/workspaces/api/use-get-workspace";
+import { useGetWorkspaces } from "@/features/workspaces/api/use-get-workspaces";
 import { Select, SelectContent, SelectItem, SelectTrigger } from "./ui/select";
 import { SelectValue } from "@radix-ui/react-select";
 import { getInitials } from "@/lib/utils";
