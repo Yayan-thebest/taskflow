@@ -1,6 +1,7 @@
 import { getCurrentUser } from '@/features/auth/queries';
 import { redirect } from 'next/navigation';
 import React from 'react'
+import { WorpaceIdClient } from './client';
 
 const WorkspaceIdPage = async () => {
   const currentUser = await getCurrentUser();
@@ -8,7 +9,7 @@ const WorkspaceIdPage = async () => {
   
   return (
     <div>
-      Workspace Id page
+      <WorpaceIdClient />
     </div>
   )
 }
