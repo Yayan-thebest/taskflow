@@ -20,21 +20,28 @@ export const TaskDescription = ({ task }: TaskDescriptionProps ) => {
         mutate({
             json: { description: value},
             param: { taskId: task.$id},
+            
+        }, {
+            onSuccess: () => {
+                setIsEditing(false);
+            } 
         })
     };
-
-
+    
     return (
         <div className="p-4 border rounded-lg">
             <div className="flex items-center justify-between">
-                <p className="text-lg font-semibold">Overview</p>
-                <Button onClick={() => setIsEditing((prev) => !prev)} size={"sm"} variant={"secondary"}>
+                <p className="text-lg font-semibold">Description</p>
+                <Button 
+                    onClick={() => setIsEditing((prev) => !prev)} 
+                    size={"sm"} 
+                    variant={"secondary"}>
                     {isEditing ? (
                         <XIcon className="size-4 mr-1" />
                     ) : (
                         <PencilIcon className="size-4 mr-1" />
                     )}
-                    {isEditing ? "Cancel" : "Edit"}
+                    {isEditing ? "Close" : "Edit"}
                 </Button>
             </div>
             <DottedSeparator className="my-4" />
@@ -53,9 +60,7 @@ export const TaskDescription = ({ task }: TaskDescriptionProps ) => {
                     </div>   
                 ) : (
                     <div className="">
-                        {task.description || (
-                            <span className="text-muted-foreground">No description set</span>
-                        )}
+                        { value || (<span className="text-muted-foreground">No description set</span> )}
                     </div>
                 )}
 

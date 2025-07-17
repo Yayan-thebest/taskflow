@@ -32,7 +32,7 @@ export const getWorkspaces = async () => {
     
     return workspaces;
 };
-
+// TODo: remove voir 6:02: 
 interface GetWorkspaceProps {
     workspaceId: string;
 }

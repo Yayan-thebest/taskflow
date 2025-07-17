@@ -51,7 +51,7 @@ export const TaskBreadcrumbs = ({ project, task }: TaskBreadcrumpsProps ) => {
                     href={`/workspaces/${workspaceId}/projects/${project.$id}`}
                     className="flex items-center gap-x-1 hover:opacity-75 transition"
                 >
-                <p className="text-sm lg:text-lg font-semibold text-muted-foreground">
+                <p className="text-sm lg:text-md font-medium text-muted-foreground">
                     {project.name}
                 </p>
                 <ChevronRight className="size-4 lg:size-5 text-muted-foreground" />
