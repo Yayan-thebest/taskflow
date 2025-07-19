@@ -34,17 +34,26 @@ export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
 
     const inputRef = useRef<HTMLInputElement>(null);
 
-    const form = useForm<z.infer<typeof createProjectSchema>>({
+    const formSchema = createProjectSchema.omit({ workspaceId: true });
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            name: "",   
+            image: undefined,
+        },
+    });
+
+    {/*const form = useForm<z.infer<typeof createProjectSchema>>({
         resolver: zodResolver(createProjectSchema.omit({ workspaceId: true })),
         defaultValues: {
             name: "",
         }
-    });
+    }); */}
 
-    const onSubmit = (values: z.infer<typeof createProjectSchema>) => {
+    const onSubmit = (values: z.infer<typeof formSchema>) => {
         const finalValues = {
             ...values,
-            workspaceId,
+            workspaceId: workspaceId,
             image: values.image instanceof File ? values.image : "",
         }
         mutate({ form: finalValues }, {
