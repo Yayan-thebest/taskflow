@@ -10,7 +10,6 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
 import { createTaskSchema } from "../schemas";
 import { DatePicker } from "@/components/date-picker";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -31,23 +30,29 @@ interface EditTaskFormProps {
 
 export const EditTaskForm = ({ onCancel, projectOptions, memberOptions, initialValues }: EditTaskFormProps) => {
 
-    const workspaceId =  useWorkspaceId();
+   {/* const workspaceId =  useWorkspaceId(); */}
 
     const { mutate, isPending } = useUpdateTask();
 
-
-    const form = useForm<z.infer<typeof createTaskSchema>>({
-        resolver: zodResolver(createTaskSchema.omit({ workspaceId: true, description: true})),
+    const formSchema = createTaskSchema.omit({ workspaceId: true, description: true });
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
         defaultValues: {
             ...initialValues,
             dueDate: initialValues.dueDate ? new Date(initialValues.dueDate) : undefined,
         }
     });
+    {/*const form = useForm<z.infer<typeof createTaskSchema>>({
+        resolver: zodResolver(createTaskSchema.omit({ workspaceId: true, description: true})),
+        defaultValues: {
+            ...initialValues,
+            dueDate: initialValues.dueDate ? new Date(initialValues.dueDate) : undefined,
+        }
+    }); */}
 
-    const onSubmit = (values: z.infer<typeof createTaskSchema>) => {
+    const onSubmit = (values: z.infer<typeof formSchema>) => {
         mutate({ json: values, param: { taskId: initialValues.$id } }, {
             onSuccess: () => {
-                form.reset();
                 onCancel?.();
             }
         });  

@@ -17,7 +17,7 @@ export const DataFilters = ({ hideProjectFilter }: DataFiltersProps ) => {
     const { data: projects, isLoading: isLoadingProjects } = useGetProjects({ workspaceId });
     const { data: members, isLoading: isLoadingMembers } = useGetMembers({ workspaceId });
 
-    const isLoading = isLoadingMembers || isLoadingMembers;
+    const isLoading = isLoadingMembers || isLoadingMembers || isLoadingProjects;
 
     const projectOptions = projects?.documents.map((project) => ({
         value: project.$id,
@@ -98,7 +98,7 @@ export const DataFilters = ({ hideProjectFilter }: DataFiltersProps ) => {
                 <SelectTrigger className="w-full lg:w-auto h-8">
                     <div className="flex items-center pr-2">
                         <UserIcon className="size-4 mr-2" />
-                        <SelectValue placeholder="All statuses" />
+                        <SelectValue placeholder="All assignees" />
                     </div>
                 </SelectTrigger>
                 <SelectContent>
