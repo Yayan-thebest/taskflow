@@ -25,8 +25,7 @@ console.log("Logout response", response);
         onSuccess: () => {
             toast.success("Logout succesfully")
             router.refresh();
-            queryClient.invalidateQueries({ queryKey: ["currentUser"] });
-            queryClient.invalidateQueries({ queryKey: ["workspaces"]});
+            queryClient.invalidateQueries(); // when nothing is specifie it will invalidate everything
             
             // 🚀 Redirige vers la page de login
             router.push("/sign-in");
