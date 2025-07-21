@@ -20,7 +20,7 @@ export const Analytics = ({ data }: ProjectAnalyticsResponseType) => {
                 </div>
                 <div className="flex items-center flex-1">
                     <AnalyticsCard 
-                        title="Assigned Taks" 
+                        title="Assigned Tasks" 
                         value={data.assignedTaskCount} 
                         variant={data.assignedTaskDifference > 0 ? "up" : "down"} 
                         increaseValue={data.assignedTaskDifference}                        
@@ -29,7 +29,7 @@ export const Analytics = ({ data }: ProjectAnalyticsResponseType) => {
                 </div>
                 <div className="flex items-center flex-1">
                     <AnalyticsCard 
-                        title="Completed Taks" 
+                        title="Completed Tasks" 
                         value={data.completeTaskCount} 
                         variant={data.completedTaskDifference > 0 ? "up" : "down"} 
                         increaseValue={data.completedTaskDifference}                        
@@ -38,7 +38,7 @@ export const Analytics = ({ data }: ProjectAnalyticsResponseType) => {
                 </div>
                 <div className="flex items-center flex-1">
                     <AnalyticsCard 
-                        title="Overdue Taks" 
+                        title="Overdue Tasks" 
                         value={data.overdueTaskCount} 
                         variant={data.overdueTaskDifference > 0 ? "up" : "down"} 
                         increaseValue={data.overdueTaskDifference}                        
@@ -47,7 +47,7 @@ export const Analytics = ({ data }: ProjectAnalyticsResponseType) => {
                 </div>
                 <div className="flex items-center flex-1">
                     <AnalyticsCard 
-                        title="Incompleted Taks" 
+                        title="Incompleted Tasks" 
                         value={data.incompletedTaskCount} 
                         variant={data.incompletedTaskDifference > 0 ? "up" : "down"} 
                         increaseValue={data.incompletedTaskDifference}                        

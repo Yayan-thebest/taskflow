@@ -16,7 +16,7 @@ const pathnameMap = {
 };
 const defaultMap = {
     title: "Home",
-    description: "Monitor all of your projects and taks here",
+    description: "Monitor all of your projects and tasks here",
 };
 
 export const Navbar = () => {

@@ -74,8 +74,8 @@ export const DataKanban = ({ data, onChange }: DataKanbanProps) => {
 
         let updatesPayload : { $id: string; status: TasksStatus; position: number; }[] = [];
 
-        setTasks((prevTaks) => {
-            const newTasks = {...prevTaks};
+        setTasks((prevTasks) => {
+            const newTasks = {...prevTasks};
 
             // safely remove the task from the source columns
             const sourceColumn = [...newTasks[sourceStatus]];
@@ -84,7 +84,7 @@ export const DataKanban = ({ data, onChange }: DataKanbanProps) => {
             // if there is no moved task (shouldn't happen, but just in case), return the previous state
             if(!movedTask) {
                 console.error("No task found at the source index");
-                return prevTaks;
+                return prevTasks;
             }
 
             // Create a new task object with potentially updated status
